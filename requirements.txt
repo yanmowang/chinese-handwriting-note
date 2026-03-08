@@ -1,5 +1,5 @@
 streamlit
-handright
-Pillow==9.5.0
 python-docx
 pypdf
+handright
+pillow
