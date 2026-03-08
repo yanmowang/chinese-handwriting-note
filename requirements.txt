@@ -1,5 +1,6 @@
+--upgrade pip
 streamlit
 handright
-pillow
+pillow>=10.0.0
 python-docx
 pypdf
