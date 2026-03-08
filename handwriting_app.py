@@ -28,6 +28,14 @@ def read_file_content(uploaded_file):
         st.error(f"解析文件失败: {str(e)}")
     return content
 
+def on_file_upload():
+    """回调函数：处理文件上传"""
+    uploaded_file = st.session_state.uploaded_file_key
+    if uploaded_file is not None:
+        content = read_file_content(uploaded_file)
+        if content:
+            st.session_state.text_content = content
+
 def create_lined_paper(width, height, line_spacing=60, margin=50, line_color=(180, 180, 200), bg_color=(255, 255, 240)):
     """生成带有横线的背景"""
     img = Image.new('RGB', (width, height), bg_color)
@@ -85,18 +93,13 @@ def main():
 让你的数字笔记看起来更有温度。"""
 
         # 文件上传区域
-        uploaded_doc = st.file_uploader("导入文档 (支持 txt, docx, pdf)", type=['txt', 'docx', 'pdf'])
+        st.file_uploader(
+            "导入文档 (支持 txt, docx, pdf)", 
+            type=['txt', 'docx', 'pdf'], 
+            key="uploaded_file_key",
+            on_change=on_file_upload
+        )
         
-        if uploaded_doc is not None:
-            # 只有当上传的文件改变时才重新读取
-            if 'last_uploaded_file' not in st.session_state or st.session_state.last_uploaded_file != uploaded_doc.name:
-                # 读取文件内容
-                file_content = read_file_content(uploaded_doc)
-                if file_content:
-                    st.session_state.text_content = file_content
-                    st.session_state.last_uploaded_file = uploaded_doc.name
-                    st.rerun() # 强制重新运行以更新 text_area
-
         text = st.text_area("输入文字内容", value=st.session_state.text_content, height=300)
         
         # 当 text_area 修改时，更新 session_state
