@@ -1,5 +1,4 @@
 streamlit
 handright
-pillow-simd
 python-docx
 pypdf
