@@ -1,0 +1,5 @@
+streamlit
+handright
+pillow
+python-docx
+pypdf
